@@ -25,7 +25,7 @@ module.exports.showListing = async (req,res)=> {
 
 module.exports.createListing = async (req,res)=>{
     let response = await geocodingClient.forwardGeocode({
-        query: "New Delhi, India",
+        query: req.body.listing.location,
         limit: 1,
       })
         .send()
@@ -59,8 +59,16 @@ module.exports.renderEditForm = async (req,res)=>{
 };
 
 module.exports.updateListing = async (req,res)=>{
+    let response = await geocodingClient.forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1,
+      })
+        .send()
+
     let {id} = req.params;
     let listing= await Listing.findByIdAndUpdate(id, {...req.body.listing});
+    listing.geometry= response.body.features[0].geometry;
+    await listing.save();
 
     if(typeof req.file !== "undefined"){
         let url= req.file.path;

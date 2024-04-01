@@ -16,3 +16,25 @@
       }, false)
     })
   })()
+
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click", ()=>{
+      let beforeTax = document.getElementsByClassName("before-tax");
+      let afterTax = document.getElementsByClassName("after-tax");
+
+      for(tax of beforeTax){
+          if(tax.style.display != "none"){
+              tax.style.display = "none";
+          }else{
+              tax.style.display = "inline";
+          }
+      }
+
+      for(tax of afterTax){
+          if(tax.style.display != "inline"){
+              tax.style.display = "inline";
+          }else{
+              tax.style.display = "none";
+          }
+      }
+  });
